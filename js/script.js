@@ -10,7 +10,8 @@ let historyDisplay = $(".searchhistory")
 
 
 $(search).click(function() {
-    console.log($("input").val());
+    let cityInput = $("input").val()
+    console.log(cityInput);
     //Take text input push to array
     $.ajax({
         url: queryURL,
