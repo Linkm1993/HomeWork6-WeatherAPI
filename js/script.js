@@ -11,6 +11,7 @@ let historyDisplay = $(".searchhistory")
 
 $(search).click(function() {
     let cityInput = $("input").val()
+    cityName.push(cityInput)
     console.log(cityInput);
     //Take text input push to array
     $.ajax({
