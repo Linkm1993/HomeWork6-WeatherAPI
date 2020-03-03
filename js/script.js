@@ -51,33 +51,41 @@ $(search).click(function() {
         //Creating new divs to hold the seperate divs for the 5 day forcast
         let container = $("<div></div>")
         let forcastDisplay =$("<div></div>")
+        let weather = $("<div></div>")
 
         //Appending new divs
         weatherDisplay.append(container)
         container.append(forcastDisplay)
+        container.append(weather)
 
         //Adding a class to the new divs
         $(container).addClass("container col-md")
         $(forcastDisplay).addClass("col-md temp")
+        $(weather).addClass("col-md discrip")
 
         //Pushing data to each spefic array
         forcast.push(weatherDescription)
         tempArray.push(temps)
         iconArray.push(weatherIcon)
         
-        $(".temp").html(tempArray[i])
+        //Prints the 5 day forcast
+        $(forcastDisplay).html(tempArray[i])
+        $(weather).html(forcast[i])
       }
-
+      //Prits city name history
       let history = $("<div></div>")
       history.append(cityName)
       historyDisplay.append(history)
       history.addClass("history")
 
-      function clearArray(){
-        tempArray.length = 0
-      }
 
-      clearArray()
+    //Funcution to empty the arrays so weather info displays correctly for each new click
+      function clearArrays(){
+        tempArray.length = 0
+        forcast.length = 0
+      }
+      //Clear after displaying
+      clearArrays()
 
 
 
@@ -91,6 +99,7 @@ $(search).click(function() {
 
 })
 
+//Clearing search history div on click
 $(clear).click(function(){
   historyDisplay.empty()
 })
