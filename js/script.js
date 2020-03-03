@@ -5,7 +5,8 @@ let tempArray = []
 let iconArray = []
 let cityDisplay = $(".citydisplay")
 let weatherDisplay = $(".weatherdisplay")
-let search = $(".btn")
+let search = $(".search")
+let clear = $(".clear")
 let historyDisplay = $(".searchhistory")
 
 //Setting cityInput to the value of the form, setting cityName to the same value as city input
@@ -36,9 +37,10 @@ $(search).click(function() {
           
       }
 
-      
 
       for (i = 0; i < 5; i++){
+
+
         //Grabs kelvin temps
         let temps = response.list[i].main.temp
         //Grabs small description of weather
@@ -63,18 +65,32 @@ $(search).click(function() {
         tempArray.push(temps)
         iconArray.push(weatherIcon)
         
-
+        $(".temp").html(tempArray[i])
       }
 
-      //Displaying the temps
-for (i =0; i < tempArray.length; i++){
-    $(".temp").html(tempArray[i])
-}
+      let history = $("<div></div>")
+      history.append(cityName)
+      historyDisplay.append(history)
+      history.addClass("history")
+
+      function clearArray(){
+        tempArray.length = 0
+      }
+
+      clearArray()
+
+
 
       console.log(forcast)
       console.log(tempArray)
+      // console.table(response.list)
+      // console.table(response.list[0].weather)
       })
 
 
 
+})
+
+$(clear).click(function(){
+  historyDisplay.empty()
 })
