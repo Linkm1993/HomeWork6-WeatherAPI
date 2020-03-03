@@ -33,8 +33,30 @@ $(search).click(function() {
           cityDisplay.append(city)
           
       }
+      // function tempConvert (value){
+      //   value = parseFloat(value)
+      //   ((value-273.15)*1.8)+32;
+
+      // }
+
+      for (i = 0; i < 5; i++){
+        //Stores Kelvin Temps
+        let tempArray = []
+        //Grabs kelvin temps
+        let temp= response.list[i].main.temp
+        //Pushing kelvin temps to the array
+        tempArray.push(temp)
+        //Creating new Divs to print temps
+        let tempdiv = $("<div></div>")
+        //Appending new divs
+        weatherDisplay.append(tempdiv)
+        //Adding a class to the new divs
+        $(tempdiv).addClass("temp col-md")
+
+        $(".temp").append(tempArray[i])
+        // tempConvert(temp)
+        console.log(tempArray)
+      }
       
       })
 })
-
-
