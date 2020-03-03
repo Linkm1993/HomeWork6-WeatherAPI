@@ -1,6 +1,8 @@
 let apiKey = "3d0cb4385570239c9c1d2ece1b6d5977"
 let cityName = []
 let forcast = []
+let tempArray = []
+let iconArray = []
 let cityDisplay = $(".citydisplay")
 let weatherDisplay = $(".weatherdisplay")
 let search = $(".btn")
@@ -33,30 +35,46 @@ $(search).click(function() {
           cityDisplay.append(city)
           
       }
-      // function tempConvert (value){
-      //   value = parseFloat(value)
-      //   ((value-273.15)*1.8)+32;
 
-      // }
+      
 
       for (i = 0; i < 5; i++){
-        //Stores Kelvin Temps
-        let tempArray = []
         //Grabs kelvin temps
-        let temp= response.list[i].main.temp
-        //Pushing kelvin temps to the array
-        tempArray.push(temp)
-        //Creating new Divs to print temps
-        let tempdiv = $("<div></div>")
-        //Appending new divs
-        weatherDisplay.append(tempdiv)
-        //Adding a class to the new divs
-        $(tempdiv).addClass("temp col-md")
+        let temps = response.list[i].main.temp
+        //Grabs small description of weather
+        let weatherDescription = response.list[i].weather[0].description
+        //Grabs weather icon
+        let weatherIcon = response.list[i].weather[0].icon
 
-        $(".temp").append(tempArray[i])
-        // tempConvert(temp)
-        console.log(tempArray)
+        //Creating new divs to hold the seperate divs for the 5 day forcast
+        let container = $("<div></div>")
+        let forcastDisplay =$("<div></div>")
+
+        //Appending new divs
+        weatherDisplay.append(container)
+        container.append(forcastDisplay)
+
+        //Adding a class to the new divs
+        $(container).addClass("container col-md")
+        $(forcastDisplay).addClass("col-md temp")
+
+        //Pushing data to each spefic array
+        forcast.push(weatherDescription)
+        tempArray.push(temps)
+        iconArray.push(weatherIcon)
+        
+
       }
-      
+
+      //Displaying the temps
+for (i =0; i < tempArray.length; i++){
+    $(".temp").html(tempArray[i])
+}
+
+      console.log(forcast)
+      console.log(tempArray)
       })
+
+
+
 })
