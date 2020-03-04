@@ -3,13 +3,23 @@ let cityName = []
 let forcast = []
 let tempArray = []
 let iconArray = []
-let dateArray = []
 let cityDisplay = $(".citydisplay")
 let weatherDisplay = $(".weatherdisplay")
 let search = $(".search")
 let clear = $(".clear")
 let historyDisplay = $(".searchhistory")
-// let m = moment()
+let m = moment()
+let currentDay = parseInt(moment().format("DD"));
+
+//Setting Days using moment
+let dayOne = moment().day(currentDay).format("MMMM" + " DD");
+let dayTwo = moment().day(currentDay +1).format("MMMM" + " DD");
+let dayThree = moment().day(currentDay +2).format("MMMM" + " DD");
+let dayFour = moment().day(currentDay +3).format("MMMM" + " DD");
+let dayFive = moment().day(currentDay +4).format("MMMM" + " DD");
+
+//Putting dates ito array
+let dateArray = [dayOne, dayTwo, dayThree, dayFour, dayFive]
 
 
 //Setting cityInput to the value of the form, setting cityName to the same value as city input
