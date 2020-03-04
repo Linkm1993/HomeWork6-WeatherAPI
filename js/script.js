@@ -21,14 +21,12 @@ let dayFive = moment().day(currentDay +4).format("MMMM" + " DD");
 //Putting dates ito array
 let dateArray = [dayOne, dayTwo, dayThree, dayFour, dayFive]
 
-
 //Setting cityInput to the value of the form, setting cityName to the same value as city input
 function input(){
   let cityInput = $("input").val()
   cityName = cityInput
   console.log(cityName)
 }
-
 
 $(search).click(function() {
     $.ajax({
@@ -43,17 +41,16 @@ $(search).click(function() {
         for (i = 0; i < cityName.length; i++){
           weatherDisplay.empty()
           cityDisplay.empty()
-
           let city = response.city.name
-
           cityDisplay.append(city)
-          
       }
 
+      //Fucution to convert temps
+      function kelvinToF(temps) {
+          return (temps - 273.15 ) * 1.8;
+      }
 
       for (i = 0; i < 5; i++){
-
-
         //Grabs kelvin temps
         let temps = response.list[i].main.temp
         //Grabs small description of weather
@@ -75,16 +72,18 @@ $(search).click(function() {
         container.append(forcastDisplay)
         container.append(weather)
 
-
         //Adding a class to the new divs
-        $(container).addClass("container col-md")
+        $(container).addClass("container col-md display")
         $(forcastDisplay).addClass("col-md temp")
         $(weather).addClass("col-md discrip")
         $(date).addClass("col-md date")
 
+        //Converting from kelvin to fahrenheit
+        let fahrenheit = kelvinToF(temps).toFixed(2);
+
         //Pushing data to each spefic array
         forcast.push(weatherDescription)
-        tempArray.push(temps)
+        tempArray.push(fahrenheit)
         iconArray.push(weatherIcon)
         dateArray.push(currentDate)
         
@@ -99,7 +98,6 @@ $(search).click(function() {
       historyDisplay.append(history)
       history.addClass("history")
 
-
     //Funcution to empty the arrays so weather info displays correctly for each new click
       function clearArrays(){
         tempArray.length = 0
@@ -108,24 +106,8 @@ $(search).click(function() {
       //Clear after displaying
       clearArrays()
 
-
-
-
       console.log(forcast)
       console.log(tempArray)
       console.log(dateArray)
-      // console.log()
-      // console.log((m.add(1, "days")))
-      // console.log(m._d)      
-      // console.table(response.list)
-      // console.table(response.list[0].weather)
       })
-
-
-
-})
-
-//Clearing search history div on click
-$(clear).click(function(){
-  historyDisplay.empty()
 })

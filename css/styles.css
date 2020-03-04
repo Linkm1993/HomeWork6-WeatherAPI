@@ -8,3 +8,9 @@
 .histroy {
   text-align: center;
 }
+
+.date {
+  border-bottom: black;
+  border: 5px;
+
+}
