@@ -123,6 +123,17 @@ $(search).click(function() {
       let lat = response.city.coord.lat
       //grabs search query lon
       let lon = response.city.coord.lon
+
+      //Appending wind speed
+      let windDisplay = $("<div class=\"wind\"></div>")
+      windDisplay.append("Wind Speed: "+ windSpeed)
+      cityDisplay.append(windDisplay)
+
+      //Appending humdity
+      let humdityDisplay = $("<div class=\"humdity\"></div>")
+      humdityDisplay.append("Humdity: "+ humdity)
+      cityDisplay.append(humdityDisplay)
+
       console.log(lat)
       console.log(lon)
 
@@ -134,7 +145,8 @@ $(search).click(function() {
         method: "GET"
       })).then(function(UV){
         let uvValue = UV.value
-        //apend uv here
+        cityDisplay.append("<div class=\"uv\"></div>")
+        cityDisplay.append("UV Index: " + uvValue)
         console.log(UV)
       })
   })
