@@ -50,8 +50,6 @@ $(search).click(function() {
           return (temps - 273.15 ) * 1.8;
       }
 
-
-
       for (i = 0; i < 5; i++){
         //Grabs kelvin temps
         let temps = response.list[i].main.temp
@@ -105,7 +103,7 @@ $(search).click(function() {
       historyDisplay.append(history)
       history.addClass("history")
 
-    //Funcution to empty the arrays so weather info displays correctly for each new click
+      //Funcution to empty the arrays so weather info displays correctly for each new click
       function clearArrays(){
         tempArray.length = 0
         forcast.length = 0
@@ -117,8 +115,32 @@ $(search).click(function() {
       console.log(tempArray)
       console.log(dateArray)
 
+      //Grabs wind speed
+      let windSpeed = response.list[0].wind.speed
+      //Grabs humdity
+      let humdity = response.list[i].main.humidity
+      //Grabs search query lat
+      let lat = response.city.coord.lat
+      //grabs search query lon
+      let lon = response.city.coord.lon
+      console.log(lat)
+      console.log(lon)
+
+            
+
+      //Another ajax call to get UV
+      $.ajax(({
+        url: "http://api.openweathermap.org/data/2.5/uvi?APPID="+apiKey+"&lat="+lat + "&lon=" + lon,
+        method: "GET"
+      })).then(function(UV){
+        let uvValue = UV.value
+        //apend uv here
+        console.log(UV)
       })
-})
+  })
+
+      })
+
 
 //setting button to clear search history
 let clearbtn = $(".clear")
