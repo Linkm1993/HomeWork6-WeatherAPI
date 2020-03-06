@@ -50,9 +50,15 @@ $(search).click(function() {
           return (temps - 273.15 ) * 1.8;
       }
 
+
+
       for (i = 0; i < 5; i++){
         //Grabs kelvin temps
         let temps = response.list[i].main.temp
+        //grabs dte used to skip
+        let dte = response.list[i].dt_txt
+        //Cuts the hour out of the dte string so we can use it to check for repeat value
+        dte = dte.substring(0, dte.indexOf(' '))        
         //Grabs small description of weather
         let weatherDescription = response.list[i].weather[0].description
         //Grabs weather icon
@@ -91,6 +97,7 @@ $(search).click(function() {
         $(date).html(dateArray[i])
         $(forcastDisplay).html(tempArray[i])
         $(weather).html(forcast[i])
+        console.log(dte)
       }
       //Prits city name history
       let history = $("<div></div>")
@@ -109,5 +116,12 @@ $(search).click(function() {
       console.log(forcast)
       console.log(tempArray)
       console.log(dateArray)
+
       })
+})
+
+//setting button to clear search history
+let clearbtn = $(".clear")
+clearbtn.click(function(){
+  historyDisplay.empty()
 })
