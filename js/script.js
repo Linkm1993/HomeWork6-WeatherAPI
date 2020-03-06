@@ -35,7 +35,7 @@ $(search).click(function() {
         url: "https://api.openweathermap.org/data/2.5/forecast?q="+cityName+"&appid="+apiKey,
         method: "GET"
       }).then(function(response) {
-        console.log(response);
+        // console.log(response);
 
       //For loop that prints the name of the city that was searched and emptys the div each time the button is clicked
         for (i = 0; i < cityName.length; i++){
@@ -95,10 +95,10 @@ $(search).click(function() {
         $(date).html(dateArray[i])
         $(forcastDisplay).html(tempArray[i])
         $(weather).html(forcast[i])
-        console.log(dte)
+        // console.log(dte)
       }
       //Prits city name history
-      let history = $("<div></div>")
+      let history = $("<button></button>")
       history.append(cityName)
       historyDisplay.append(history)
       history.addClass("history")
@@ -110,10 +110,6 @@ $(search).click(function() {
       }
       //Clear after displaying
       clearArrays()
-
-      console.log(forcast)
-      console.log(tempArray)
-      console.log(dateArray)
 
       //Grabs wind speed
       let windSpeed = response.list[0].wind.speed
@@ -134,21 +130,38 @@ $(search).click(function() {
       humdityDisplay.append("Humdity: "+ humdity)
       cityDisplay.append(humdityDisplay)
 
-      console.log(lat)
-      console.log(lon)
-
-            
-
       //Another ajax call to get UV
       $.ajax(({
         url: "http://api.openweathermap.org/data/2.5/uvi?APPID="+apiKey+"&lat="+lat + "&lon=" + lon,
         method: "GET"
       })).then(function(UV){
+        //setting UV value
         let uvValue = UV.value
+        //appending to display
         cityDisplay.append("<div class=\"uv\"></div>")
         cityDisplay.append("UV Index: " + uvValue)
-        console.log(UV)
       })
+
+      //Pointer for generated search history buttons
+      let searchBTN = $(".history")
+
+
+      $(searchBTN).click(function(){
+        cityName = $(this).text()
+
+        function searchinput(){
+          cityName.length = 0
+        }
+  
+        $.ajax({
+          //Running the funcution input before calling ajax to prevent ajax from sending request before cityName is defied
+            beforeSend: searchinput(),
+            url: "https://api.openweathermap.org/data/2.5/forecast?q="+cityName+"&appid="+apiKey,
+            method: "GET"
+          }).then(function(se) {
+            console.log(se);
+          })
+        })
   })
 
       })
