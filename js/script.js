@@ -47,7 +47,7 @@ $(search).click(function() {
 
       //Fucution to convert temps
       function kelvinToF(temps) {
-          return (temps - 273.15 ) * 1.8;
+          return (((temps - 273.15) * (9 / 5)) + 32);
       }
 
       for (i = 0; i < 5; i++){
@@ -83,11 +83,11 @@ $(search).click(function() {
         $(date).addClass("col-md date")
 
         //Converting from kelvin to fahrenheit
-        let fahrenheit = kelvinToF(temps).toFixed(2);
+        let fahrenheit = kelvinToF(temps).toFixed(1);
 
         //Pushing data to each spefic array
         forcast.push(weatherDescription)
-        tempArray.push(fahrenheit)
+        tempArray.push(fahrenheit + "°F")
         iconArray.push(weatherIcon)
         dateArray.push(currentDate)
         
@@ -190,7 +190,7 @@ $(search).click(function() {
 
     //Fucution to convert temps
     function kelvinToF(temps) {
-        return (temps - 273.15 ) * 1.8;
+        return (((temps - 273.15) * (9 / 5)) + 32);
     }
 
     for (i = 0; i < 5; i++){
@@ -226,11 +226,11 @@ $(search).click(function() {
       $(date).addClass("col-md date")
 
       //Converting from kelvin to fahrenheit
-      let fahrenheit = kelvinToF(temps).toFixed(2);
+      let fahrenheit = kelvinToF(temps).toFixed(1);
 
       //Pushing data to each spefic array
       forcast.push(weatherDescription)
-      tempArray.push(fahrenheit)
+      tempArray.push(fahrenheit + "F°")
       iconArray.push(weatherIcon)
       dateArray.push(currentDate)
       
@@ -274,12 +274,13 @@ $(search).click(function() {
       method: "GET"
     })).then(function(UV){
       $(".uv").empty()
-      //setting UV value
-      let uvValue = UV.value
-      //appending to display
-      let uvDiv = $(("<div class=\"uv\"></div>"))
-      cityDisplay.append(uvDiv)
-      cityDisplay.append("UV Index: " + uvValue)
+        //setting UV value
+        let uvValue = UV.value
+        let uvDIV = $("<div class=\"uv\"></div>")
+        //appending to display
+        cityDisplay.append(uvDIV)
+        uvDIV.append("UV Index: " + "<p class =il>" + uvValue + "</p")
+        
       //Changing bg color of the UV display based on the value
       if ($(".il").text() <= 2.9){
         $(".il").css("background-color", "limegreen")
