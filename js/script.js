@@ -143,6 +143,7 @@ $(search).click(function() {
         uvDIV.append("UV Index: " + "<p class =il>" + uvValue + "</p")
   
         //chaning bg color of il based on value
+        
         if ($(".il").text() <= 2.9){
           $(".il").css("background-color", "limegreen")
         }
@@ -159,8 +160,7 @@ $(search).click(function() {
           $(".il").css("background-color", "violet")
         }
           console.log($(".il").text())
-
-      })
+        })
 
       //Pointer for generated search history buttons
       let searchBTN = $(".history")
@@ -180,13 +180,130 @@ $(search).click(function() {
             method: "GET"
           }).then(function(se) {
             console.log(se);
+                  //For loop that prints the name of the city that was searched and emptys the div each time the button is clicked
+      for (i = 0; i < cityName.length; i++){
+        weatherDisplay.empty()
+        cityDisplay.empty()
+        let city = se.city.name
+        cityDisplay.append(city)
+    }
 
+    //Fucution to convert temps
+    function kelvinToF(temps) {
+        return (temps - 273.15 ) * 1.8;
+    }
+
+    for (i = 0; i < 5; i++){
+      //Grabs kelvin temps
+      let temps = se.list[i].main.temp
+      //grabs dte used to skip
+      let dte = se.list[i].dt_txt
+      //Cuts the hour out of the dte string so we can use it to check for repeat value
+      dte = dte.substring(0, dte.indexOf(' '))        
+      //Grabs small description of weather
+      let weatherDescription = se.list[i].weather[0].description
+      //Grabs weather icon
+      let weatherIcon = se.list[i].weather[0].icon
+      //grabs current day
+      let currentDate = moment().format("dddd, MMMM Do YYYY")
+
+      //Creating new divs to hold the seperate divs for the 5 day forcast
+      let container = $("<div></div>")
+      let forcastDisplay =$("<div></div>")
+      let weather = $("<div></div>")
+      let date = $("<div></div>")
+
+      //Appending new divs
+      weatherDisplay.append(container)
+      container.append(date)
+      container.append(forcastDisplay)
+      container.append(weather)
+
+      //Adding a class to the new divs
+      $(container).addClass("container col-md display")
+      $(forcastDisplay).addClass("col-md temp")
+      $(weather).addClass("col-md discrip")
+      $(date).addClass("col-md date")
+
+      //Converting from kelvin to fahrenheit
+      let fahrenheit = kelvinToF(temps).toFixed(2);
+
+      //Pushing data to each spefic array
+      forcast.push(weatherDescription)
+      tempArray.push(fahrenheit)
+      iconArray.push(weatherIcon)
+      dateArray.push(currentDate)
+      
+      //Prints the 5 day forcast
+      $(date).html(dateArray[i])
+      $(forcastDisplay).html(tempArray[i])
+      $(weather).html(forcast[i])
+      // console.log(dte)
+    }
+
+    //Funcution to empty the arrays so weather info displays correctly for each new click
+    function clearArrays(){
+      tempArray.length = 0
+      forcast.length = 0
+    }
+    //Clear after displaying
+    clearArrays()
+
+    //Grabs wind speed
+    let windSpeed = se.list[0].wind.speed
+    //Grabs humdity
+    let humdity = se.list[i].main.humidity
+    //Grabs search query lat
+    let lat = se.city.coord.lat
+    //grabs search query lon
+    let lon = se.city.coord.lon
+
+    //Appending wind speed
+    let windDisplay = $("<div class=\"wind\"></div>")
+    windDisplay.append("Wind Speed: "+ windSpeed)
+    cityDisplay.append(windDisplay)
+
+    //Appending humdity
+    let humdityDisplay = $("<div class=\"humdity\"></div>")
+    humdityDisplay.append("Humdity: "+ humdity)
+    cityDisplay.append(humdityDisplay)
+
+    //Another ajax call to get UV
+    $.ajax(({
+      url: "http://api.openweathermap.org/data/2.5/uvi?APPID="+apiKey+"&lat="+lat + "&lon=" + lon,
+      method: "GET"
+    })).then(function(UV){
+      $(".uv").empty()
+      //setting UV value
+      let uvValue = UV.value
+      //appending to display
+      let uvDiv = $(("<div class=\"uv\"></div>"))
+      cityDisplay.append(uvDiv)
+      cityDisplay.append("UV Index: " + uvValue)
+      //Changing bg color of the UV display based on the value
+      if ($(".il").text() <= 2.9){
+        $(".il").css("background-color", "limegreen")
+      }
+      if ($(".il").text() >= 3 && $(".il").text() <= 5.9){
+        $(".il").css("background-color", "yellow")
+      }
+      if ($(".il").text() >= 6 && $(".il").text() <= 7.9){
+        $(".il").css("background-color", "orange")
+      }
+      if ($(".il").text() >= 8 && $(".il").text() <= 10.9){
+        $(".il").css("background-color", "red")
+      }
+      if ($(".il").text() >= 11){
+        $(".il").css("background-color", "violet")
+      }
+        console.log($(".il").text())
+      })
           })
+      
         })
   })
 
-      })
-
+})
 
 //setting button to clear search history
 let clearbtn = $(".clear")
