@@ -137,9 +137,29 @@ $(search).click(function() {
       })).then(function(UV){
         //setting UV value
         let uvValue = UV.value
+        let uvDIV = $("<div class=\"uv\"></div>")
         //appending to display
-        cityDisplay.append("<div class=\"uv\"></div>")
-        cityDisplay.append("UV Index: " + uvValue)
+        cityDisplay.append(uvDIV)
+        uvDIV.append("UV Index: " + "<p class =il>" + uvValue + "</p")
+  
+        //chaning bg color of il based on value
+        if ($(".il").text() <= 2.9){
+          $(".il").css("background-color", "limegreen")
+        }
+        if ($(".il").text() >= 3 && $(".il").text() <= 5.9){
+          $(".il").css("background-color", "yellow")
+        }
+        if ($(".il").text() >= 6 && $(".il").text() <= 7.9){
+          $(".il").css("background-color", "orange")
+        }
+        if ($(".il").text() >= 8 && $(".il").text() <= 10.9){
+          $(".il").css("background-color", "red")
+        }
+        if ($(".il").text() >= 11){
+          $(".il").css("background-color", "violet")
+        }
+          console.log($(".il").text())
+
       })
 
       //Pointer for generated search history buttons
@@ -160,6 +180,7 @@ $(search).click(function() {
             method: "GET"
           }).then(function(se) {
             console.log(se);
+
           })
         })
   })
