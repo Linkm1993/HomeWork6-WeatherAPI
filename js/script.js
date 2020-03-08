@@ -10,6 +10,8 @@ let clear = $(".clear")
 let historyDisplay = $(".searchhistory")
 let m = moment()
 let currentDay = parseInt(moment().format("DD"));
+let items =[]
+
 
 //Setting Days using moment
 let dayOne = moment().day(currentDay).format("MMMM" + " DD");
@@ -35,7 +37,13 @@ $(search).click(function() {
         url: "https://api.openweathermap.org/data/2.5/forecast?q="+cityName+"&appid="+apiKey,
         method: "GET"
       }).then(function(response) {
-        // console.log(response);
+
+        //Logging city name in local storage
+        function store(cityName) {
+          items.push(cityName);
+          localStorage.setItem("City Name", JSON.stringify(cityName));
+      }
+      store(cityName)
 
       //For loop that prints the name of the city that was searched and emptys the div each time the button is clicked
         for (i = 0; i < cityName.length; i++){
@@ -99,9 +107,6 @@ $(search).click(function() {
         $(weather).html(forcast[i])
         $(iconDIV).attr("src", "https://openweathermap.org/img/wn/" + iconArray[i] + "@2x.png")
 
-
-        console.log(iconArray)
-
       }
       //Prits city name history
       let history = $("<button></button>")
@@ -150,7 +155,6 @@ $(search).click(function() {
         uvDIV.append("UV Index: " + "<p class =il>" + uvValue + "</p")
   
         //chaning bg color of il based on value
-        
         if ($(".il").text() <= 2.9){
           $(".il").css("background-color", "limegreen")
         }
@@ -175,7 +179,7 @@ $(search).click(function() {
 
       $(searchBTN).click(function(){
         cityName = $(this).text()
-
+        //clearing out city name array to print new city name
         function searchinput(){
           cityName.length = 0
         }
@@ -186,14 +190,21 @@ $(search).click(function() {
             url: "https://api.openweathermap.org/data/2.5/forecast?q="+cityName+"&appid="+apiKey,
             method: "GET"
           }).then(function(se) {
-            console.log(se);
-                  //For loop that prints the name of the city that was searched and emptys the div each time the button is clicked
-      for (i = 0; i < cityName.length; i++){
-        weatherDisplay.empty()
-        cityDisplay.empty()
-        let city = se.city.name
-        cityDisplay.append(city)
-    }
+
+       //Logging city name in local storage
+        function store(cityName) {
+          items.push(cityName);
+          localStorage.setItem("City Name", JSON.stringify(cityName));
+      }
+      store(cityName)
+      
+              //For loop that prints the name of the city that was searched and emptys the div each time the button is clicked
+                for (i = 0; i < cityName.length; i++){
+                  weatherDisplay.empty()
+                  cityDisplay.empty()
+                  let city = se.city.name
+                  cityDisplay.append(city)
+              }
 
     //Fucution to convert temps
     function kelvinToF(temps) {
@@ -249,8 +260,6 @@ $(search).click(function() {
       $(forcastDisplay).html(tempArray[i])
       $(weather).html(forcast[i])
       $(iconDIV).attr("src", "https://openweathermap.org/img/wn/" + iconArray[i] + "@2x.png")
-
-      // console.log(dte)
     }
 
     //Funcution to empty the arrays so weather info displays correctly for each new click
@@ -314,9 +323,8 @@ $(search).click(function() {
           })
       
         })
+      })
   })
-
-})
 
 //setting button to clear search history
 let clearbtn = $(".clear")
