@@ -69,9 +69,11 @@ $(search).click(function() {
         let forcastDisplay =$("<div></div>")
         let weather = $("<div></div>")
         let date = $("<div></div>")
+        let iconDIV =$("<img></img>")
 
         //Appending new divs
         weatherDisplay.append(container)
+        container.append(iconDIV)
         container.append(date)
         container.append(forcastDisplay)
         container.append(weather)
@@ -95,7 +97,11 @@ $(search).click(function() {
         $(date).html(dateArray[i])
         $(forcastDisplay).html(tempArray[i])
         $(weather).html(forcast[i])
-        // console.log(dte)
+        $(iconDIV).attr("src", "https://openweathermap.org/img/wn/" + iconArray[i] + "@2x.png")
+
+
+        console.log(iconArray)
+
       }
       //Prits city name history
       let history = $("<button></button>")
@@ -107,6 +113,7 @@ $(search).click(function() {
       function clearArrays(){
         tempArray.length = 0
         forcast.length = 0
+        iconArray.length = 0
       }
       //Clear after displaying
       clearArrays()
@@ -208,13 +215,16 @@ $(search).click(function() {
       let currentDate = moment().format("dddd, MMMM Do YYYY")
 
       //Creating new divs to hold the seperate divs for the 5 day forcast
-      let container = $("<div></div>")
-      let forcastDisplay =$("<div></div>")
-      let weather = $("<div></div>")
-      let date = $("<div></div>")
+              //Creating new divs to hold the seperate divs for the 5 day forcast
+        let container = $("<div></div>")
+        let forcastDisplay =$("<div></div>")
+        let weather = $("<div></div>")
+        let date = $("<div></div>")
+        let iconDIV =$("<img></img>")
 
       //Appending new divs
       weatherDisplay.append(container)
+      container.append(iconDIV)
       container.append(date)
       container.append(forcastDisplay)
       container.append(weather)
@@ -238,6 +248,8 @@ $(search).click(function() {
       $(date).html(dateArray[i])
       $(forcastDisplay).html(tempArray[i])
       $(weather).html(forcast[i])
+      $(iconDIV).attr("src", "https://openweathermap.org/img/wn/" + iconArray[i] + "@2x.png")
+
       // console.log(dte)
     }
 
